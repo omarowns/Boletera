@@ -3,8 +3,9 @@ using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MySql.Data.Entity;
+using BoleteraNS;
 
-namespace MySQLTest
+namespace MySQLConnector
 {
     class MySQLConnector
     {
@@ -19,7 +20,7 @@ namespace MySQLTest
         public MySqlConnectionStringBuilder ConnData { get { return connData; } }
         public MySqlConnection Conn { get { return conn; }}
 
-        public MySQLConnector(string server = "localhost",string user="root",string database="world",uint port=3306,string password="sa123")
+        public MySQLConnector(string server = "localhost",string user="root",string database="boletera",uint port=3306,string password="sa123")
         {
             connData = new MySqlConnectionStringBuilder();
             //Datos de la conexión
@@ -28,7 +29,11 @@ namespace MySQLTest
             connData.Database = database;
             connData.Port = port;
             connData.Password = password;
-
+            Globals.server = server;
+            Globals.password = password;
+            Globals.port = port;
+            Globals.user = user;
+            
             doConnect();
         }
 
