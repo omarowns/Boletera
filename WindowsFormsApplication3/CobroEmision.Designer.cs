@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CobroEmision));
             this.emisionBox = new System.Windows.Forms.GroupBox();
             this.tarifaFija = new System.Windows.Forms.RadioButton();
             this.tarifaPorHora = new System.Windows.Forms.RadioButton();
@@ -238,7 +239,7 @@
             // 
             this.closesession.Location = new System.Drawing.Point(275, 335);
             this.closesession.Name = "closesession";
-            this.closesession.Size = new System.Drawing.Size(97, 23);
+            this.closesession.Size = new System.Drawing.Size(110, 34);
             this.closesession.TabIndex = 4;
             this.closesession.Text = "Cerrar Sesión";
             this.closesession.UseVisualStyleBackColor = true;
@@ -248,14 +249,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 362);
+            this.ClientSize = new System.Drawing.Size(652, 391);
             this.Controls.Add(this.closesession);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.fechaLabel);
             this.Controls.Add(this.cobroBox);
             this.Controls.Add(this.emisionBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "CobroEmision";
-            this.Text = "CobroEmision";
+            this.Text = "Cobro y emisión de boletos";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CobroEmision_FormClosed);
             this.Load += new System.EventHandler(this.CobroEmision_Load);
             this.emisionBox.ResumeLayout(false);

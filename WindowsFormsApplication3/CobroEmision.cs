@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
 using System.IO;
 
 namespace Boletera
@@ -105,7 +106,51 @@ namespace Boletera
             string ticket_builder = "INSERT INTO ticket(entrada_at,salida_at,monto_cobrado,usuario_id,tarifa_id) VALUES(NOW(),null,null,"+user_id+","+tarifa_id+")";
             Globals.connector.update(ticket_builder);
             updateBoletosEmitidos();
+            //Emisión
+            printTicket();
             
+        }
+
+        public void printTicket()
+        {
+            string hora_entrada, folio;
+            Word.Application wordApp = new Word.Application();
+            Word.Document doc;
+            //wordApp.Visible = true;
+            //Marcador
+            Word.Bookmark bMark;
+
+            //Abre la plantilla del ticket
+            wordApp.Documents.Add(System.IO.Directory.GetCurrentDirectory() + @"\ticket.docx");
+            doc = wordApp.ActiveDocument;
+            //Desactiva las alertas para que se haga en segundo plano
+            wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
+
+            //Consulta
+            MySqlDataReader rdr = Globals.connector.getReader("select * from ticket order by salida_at desc limit 1;");
+            
+
+            //open
+            while (rdr.Read())
+            {
+                hora_entrada = rdr.GetString("entrada_at");
+                hora_entrada = hora_entrada.Substring(11,hora_entrada.Length-17);
+                bMark = doc.Bookmarks["hora_entrada"];
+                bMark.Range.Text = hora_entrada;
+                //Quita los - : y espacios en blanco para hacer un folio
+                folio = rdr.GetString("entrada_at").Substring(0,rdr.GetString("entrada_at").Length-6).Replace("-", string.Empty).Replace(" ", string.Empty).Replace(":", string.Empty).Replace(@"/",string.Empty);
+                bMark = doc.Bookmarks["codigo"];
+                bMark.Range.Text = folio;
+                bMark = doc.Bookmarks["codigo2"];
+                bMark.Range.Text = folio;
+                bMark = doc.Bookmarks["ticket_id"];
+                bMark.Range.Text = rdr.GetInt32("id").ToString();
+                doc.PrintOut();
+                doc.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
+                wordApp.Quit();
+            }
+            rdr.Close();
+
         }
 
         private void cobrarBoleto_Click(object sender, EventArgs e)
