@@ -1,4 +1,4 @@
-﻿namespace BoleteraUsuarioEmision
+﻿namespace Boletera
 {
     partial class ConveniosTarifas
     {

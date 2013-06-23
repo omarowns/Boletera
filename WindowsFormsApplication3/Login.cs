@@ -7,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySQLConnector;
 using MySql.Data.Entity;
 using MySql.Data.MySqlClient;
-using BoleteraUsuarioEmision;
 
-namespace BoleteraNS
+namespace Boletera
 {
     public partial class Login : Form
     {
@@ -45,20 +43,29 @@ namespace BoleteraNS
                 goto ADMIN;
             }
             goto ERROR;
+
             //Buscar en resultados de usuarios
             ADMIN:
             MessageBox.Show("Administrador correcto");
+            Globals.connector = new MySQLConnector();
+            admin adm = new admin();
+            this.Hide();
+            adm.ShowDialog(this);
+            this.Show();
             goto JUMP;
+
             USUARIO:
             MessageBox.Show("Usuario correcto");
-            Globals.connector = new MySQLConnector.MySQLConnector("localhost" , "user" , "boletera" , 3306 , "user");
+            Globals.connector = new MySQLConnector();
             CobroEmision ce = new CobroEmision(name);
             this.Hide();
             ce.ShowDialog(this);
             this.Show();
             goto JUMP;
+
             ERROR:
             MessageBox.Show("ERROR");
+
             JUMP:
             reader.Close();
             textBoxUser.Text = "";

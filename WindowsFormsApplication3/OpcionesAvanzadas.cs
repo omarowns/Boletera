@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySQLConnector;
 using MySql.Data.Entity;
 using MySql.Data.MySqlClient;
 
-namespace BoleteraNS
+namespace Boletera
 {
     public partial class OpcionesAvanzadas : Form
     {
@@ -37,8 +36,15 @@ namespace BoleteraNS
             Globals.user = textBoxUser.Text;
             Globals.port = Convert.ToUInt32(textBoxPort.Text);
             Globals.password = textBoxPassword.Text;
-            Globals.connector = new MySQLConnector.MySQLConnector(Globals.server , Globals.user , "boletera" , Globals.port , Globals.password);
-            this.Close();
+            Globals.connector = new MySQLConnector(Globals.server , Globals.user , "boletera" , Globals.port , Globals.password);
+            if (Globals.connector.Conn.State != ConnectionState.Open)
+            {
+                MessageBox.Show(this, "Error en la conexión a la base de datos, verifique los parámetros de conexión", "Error de conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void textBoxPort_KeyPress(object sender, KeyPressEventArgs e)
@@ -73,6 +79,19 @@ namespace BoleteraNS
         private void textBoxPort_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             
+        }
+
+        private void button_TestConn_Click(object sender, EventArgs e)
+        {
+            Globals.connector = new MySQLConnector(Globals.server, Globals.user, "boletera", Globals.port, Globals.password);
+            if (Globals.connector.Conn.State == ConnectionState.Open)
+            {
+                MessageBox.Show("La conexión con la base de datos ha sido exitosa");
+            }
+            else
+            {
+                MessageBox.Show(null,"Error en la conexión a la base de datos, verifique los parámetros de conexión","Error de conexión",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
         }
     }
 }

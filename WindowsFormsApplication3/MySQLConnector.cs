@@ -3,9 +3,8 @@ using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MySql.Data.Entity;
-using BoleteraNS;
 
-namespace MySQLConnector
+namespace Boletera
 {
     class MySQLConnector
     {

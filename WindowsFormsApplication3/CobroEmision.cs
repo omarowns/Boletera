@@ -8,11 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using BoleteraNS;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 
-namespace BoleteraUsuarioEmision
+namespace Boletera
 {
 
     public partial class CobroEmision : Form

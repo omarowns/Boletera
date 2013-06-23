@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data;
-using BoleteraNS;
 
 namespace Boletera
 {
