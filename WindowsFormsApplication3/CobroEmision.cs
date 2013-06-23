@@ -122,35 +122,51 @@ namespace Boletera
 
             //Abre la plantilla del ticket
             wordApp.Documents.Add(System.IO.Directory.GetCurrentDirectory() + @"\ticket.docx");
+            if (!System.IO.File.Exists(System.IO.Directory.GetCurrentDirectory() + @"\ticket.docx"))
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog(this);
+                wordApp.Documents.Add(dialog.FileName);
+            }
             doc = wordApp.ActiveDocument;
             //Desactiva las alertas para que se haga en segundo plano
             wordApp.DisplayAlerts = Word.WdAlertLevel.wdAlertsNone;
 
-            //Consulta
-            MySqlDataReader rdr = Globals.connector.getReader("select * from ticket order by salida_at desc limit 1;");
-            
-
-            //open
-            while (rdr.Read())
+            try
             {
-                hora_entrada = rdr.GetString("entrada_at");
-                hora_entrada = hora_entrada.Substring(11,hora_entrada.Length-17);
-                bMark = doc.Bookmarks["hora_entrada"];
-                bMark.Range.Text = hora_entrada;
-                //Quita los - : y espacios en blanco para hacer un folio
-                folio = rdr.GetString("entrada_at").Substring(0,rdr.GetString("entrada_at").Length-6).Replace("-", string.Empty).Replace(" ", string.Empty).Replace(":", string.Empty).Replace(@"/",string.Empty);
-                bMark = doc.Bookmarks["codigo"];
-                bMark.Range.Text = folio;
-                bMark = doc.Bookmarks["codigo2"];
-                bMark.Range.Text = folio;
-                bMark = doc.Bookmarks["ticket_id"];
-                bMark.Range.Text = rdr.GetInt32("id").ToString();
-                doc.PrintOut();
-                doc.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
-                wordApp.Quit();
-            }
-            rdr.Close();
+                //Consulta
+                MySqlDataReader rdr = Globals.connector.getReader("select * from ticket order by salida_at desc limit 1;");
 
+
+                //open
+                while (rdr.Read())
+                {
+                    hora_entrada = rdr.GetString("entrada_at");
+                    hora_entrada = hora_entrada.Substring(11, hora_entrada.Length - 17);
+                    bMark = doc.Bookmarks["hora_entrada"];
+                    bMark.Range.Text = hora_entrada;
+                    //Quita los - : y espacios en blanco para hacer un folio
+                    folio = rdr.GetString("entrada_at").Substring(0, rdr.GetString("entrada_at").Length - 6).Replace("-", string.Empty).Replace(" ", string.Empty).Replace(":", string.Empty).Replace(@"/", string.Empty);
+                    bMark = doc.Bookmarks["codigo"];
+                    bMark.Range.Text = folio;
+                    bMark = doc.Bookmarks["codigo2"];
+                    bMark.Range.Text = folio;
+                    bMark = doc.Bookmarks["ticket_id"];
+                    bMark.Range.Text = rdr.GetInt32("id").ToString();
+                    doc.PrintOut();
+                    doc.Close(Word.WdSaveOptions.wdDoNotSaveChanges);
+                    wordApp.Quit();
+                }
+                rdr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                
+            }
         }
 
         private void cobrarBoleto_Click(object sender, EventArgs e)
