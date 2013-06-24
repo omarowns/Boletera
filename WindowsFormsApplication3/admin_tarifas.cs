@@ -59,7 +59,7 @@ namespace Boletera
 		}
 		
 		public void actualizar(){
-			conn = new MySQLConnector();
+            conn = Globals.connector;
 			aux = new MySqlDataAdapter("select tarifa.id,tarifa.convenio_id,convenio.nombre,tarifa.descripcion,tarifa.monto from boletera.convenio join boletera.tarifa where convenio.id = tarifa.convenio_id",conn.Conn);
 			DataSet DS = new DataSet();
 			aux.Fill(DS);

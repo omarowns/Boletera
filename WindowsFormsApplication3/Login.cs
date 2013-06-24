@@ -47,7 +47,7 @@ namespace Boletera
             //Buscar en resultados de usuarios
             ADMIN:
             MessageBox.Show("Administrador correcto");
-            Globals.connector = new MySQLConnector();
+            Globals.connector = new MySQLConnector("localhost","admin","boletera",3306,"admin");
             admin adm = new admin();
             this.Hide();
             adm.ShowDialog(this);
@@ -56,7 +56,7 @@ namespace Boletera
 
             USUARIO:
             MessageBox.Show("Usuario correcto");
-            Globals.connector = new MySQLConnector();
+            Globals.connector = new MySQLConnector("localhost","user","boletera",3306,"user");
             CobroEmision ce = new CobroEmision(name);
             this.Hide();
             ce.ShowDialog(this);

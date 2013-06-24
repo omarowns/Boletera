@@ -40,8 +40,7 @@ namespace Boletera
 		}
 		
 		public void actualizar(){
-			conn = new MySQLConnector();
-			aux = new MySqlDataAdapter("select * from boletera.convenio",conn.Conn);
+			aux = new MySqlDataAdapter("select * from boletera.convenio",Globals.connector.Conn);
 			DataSet DS = new DataSet();
 			aux.Fill(DS);
 			tabla_cnv.DataSource = DS.Tables[0];
@@ -65,8 +64,47 @@ namespace Boletera
 				MySqlCommandBuilder mcb = new MySqlCommandBuilder(aux);
 				aux.UpdateCommand = mcb.GetUpdateCommand();
 				aux.Update(changes);
-				((DataTable)tabla_cnv.DataSource).AcceptChanges();				
+				((DataTable)tabla_cnv.DataSource).AcceptChanges();
+                aux.Dispose();
+                mcb.Dispose();
+                updateTarifas();
 			}
 		}
+
+        private static void updateTarifas()
+        {
+            double[] monto = { 0, 0 };
+            System.Collections.Generic.List<string> updates = new System.Collections.Generic.List<string>();
+            int c = 0;
+            MySql.Data.MySqlClient.MySqlDataReader reader = Globals.connector.getReader("SELECT monto FROM tarifa LIMIT 2");
+            while (reader.Read())
+            {
+                monto[c] = Convert.ToDouble(reader[0]);
+                c++;
+            }
+            reader.Close();
+            reader = Globals.connector.getReader("SELECT tarifa.id,tarifa.monto,convenio.id,convenio.cortesia_hr,convenio.cortesia_fija FROM tarifa JOIN convenio WHERE tarifa.convenio_id=convenio.id;");
+            while (reader.Read())
+            {
+                int tarifa_id = Convert.ToInt32(reader[0]);
+                double cortesia_hr = Convert.ToDouble(reader[3]);
+                double cortesia_fija = Convert.ToDouble(reader[4]);
+                if (tarifa_id % 2 == 0)
+                {
+                    string update = "UPDATE tarifa SET monto=" + (monto[1] - ((cortesia_fija / 100) * monto[1])) + " WHERE id=" + tarifa_id;
+                    updates.Add(update);
+                }
+                else
+                {
+                    string update = "UPDATE tarifa SET monto=" + (monto[0] - ((cortesia_hr / 100) * monto[0])) + " WHERE id=" + tarifa_id;
+                    updates.Add(update);
+                }
+            }
+            reader.Close();
+            foreach (string update in updates)
+            {
+                Globals.connector.update(update);
+            }
+        }
 	}
 }
