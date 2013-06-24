@@ -40,13 +40,10 @@ namespace Boletera
             this.btn_cnv = new System.Windows.Forms.Button();
             this.btn_tar = new System.Windows.Forms.Button();
             this.btn_usr = new System.Windows.Forms.Button();
-            this.Resultados = new System.Windows.Forms.GroupBox();
-            this.btn_rep = new System.Windows.Forms.Button();
             this.btn_salir = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.Administrar.SuspendLayout();
-            this.Resultados.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,32 +93,10 @@ namespace Boletera
             this.btn_usr.UseVisualStyleBackColor = true;
             this.btn_usr.Click += new System.EventHandler(this.Btn_usrClick);
             // 
-            // Resultados
-            // 
-            this.Resultados.Controls.Add(this.btn_rep);
-            this.Resultados.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Resultados.Location = new System.Drawing.Point(13, 286);
-            this.Resultados.Name = "Resultados";
-            this.Resultados.Size = new System.Drawing.Size(334, 120);
-            this.Resultados.TabIndex = 1;
-            this.Resultados.TabStop = false;
-            this.Resultados.Text = "Resultados";
-            // 
-            // btn_rep
-            // 
-            this.btn_rep.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_rep.Location = new System.Drawing.Point(103, 50);
-            this.btn_rep.Name = "btn_rep";
-            this.btn_rep.Size = new System.Drawing.Size(117, 45);
-            this.btn_rep.TabIndex = 0;
-            this.btn_rep.Text = "Reportes";
-            this.btn_rep.UseVisualStyleBackColor = true;
-            this.btn_rep.Click += new System.EventHandler(this.Btn_salirClick);
-            // 
             // btn_salir
             // 
             this.btn_salir.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_salir.Location = new System.Drawing.Point(230, 430);
+            this.btn_salir.Location = new System.Drawing.Point(230, 311);
             this.btn_salir.Name = "btn_salir";
             this.btn_salir.Size = new System.Drawing.Size(117, 45);
             this.btn_salir.TabIndex = 2;
@@ -153,25 +128,21 @@ namespace Boletera
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 487);
+            this.ClientSize = new System.Drawing.Size(359, 378);
             this.ControlBox = false;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_salir);
-            this.Controls.Add(this.Resultados);
             this.Controls.Add(this.Administrar);
             this.Name = "admin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Administrador";
             this.Administrar.ResumeLayout(false);
-            this.Resultados.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
 		}
-		private System.Windows.Forms.Button btn_salir;
-		private System.Windows.Forms.Button btn_rep;
-		private System.Windows.Forms.GroupBox Resultados;
+        private System.Windows.Forms.Button btn_salir;
 		private System.Windows.Forms.Button btn_usr;
 		private System.Windows.Forms.Button btn_tar;
 		private System.Windows.Forms.Button btn_cnv;
